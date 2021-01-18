@@ -1,5 +1,6 @@
 <h4>Meteokre</h4>
 
-<a routerLink="pastebin">Go to Pastebin</a>
+<a routerLink="pastebin" (click)="setTitle('Pastebin')">Pastebin</a>
+<a routerLink="fileupload" (click)="setTitle('Image Upload')">Upload file</a>
 
 <router-outlet></router-outlet>

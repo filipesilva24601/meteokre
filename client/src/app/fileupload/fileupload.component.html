@@ -1,0 +1,13 @@
+<div *ngIf="!fileId;else showID">
+    <div id="dragZone" (drop)="dropHandler($event);"></div>
+    <input type="file" (change)="setFileToUpload($event.target.files)" [files]="filesToUpload">
+    <button (click)="uploadFile()">Upload</button>
+</div>
+
+<ng-template #showID>
+    <div>
+        <p>Uploaded file successfully with ID <a routerLink="/image/{{fileId}}">{{fileId}}</a></p>
+        <p>Encryption key <span>{{encryptionKey}}</span></p>
+        <button (click)="reset()">Upload another file</button>
+    </div>
+</ng-template>

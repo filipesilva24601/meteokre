@@ -1,0 +1,10 @@
+<div>
+    <img [src]="image">
+    <div>
+        <div>
+            <label for="encKey">Encryption Key</label>
+            <input id="encKey" type="text" [(ngModel)]="encryptionKey">
+        </div>
+        <button (click)="getImage()">Fetch and decrypt</button>
+    </div>
+</div>
