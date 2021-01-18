@@ -1,1 +1,11 @@
-<p>pastebin works!</p>
+<h1>Text editor</h1>
+<div #textEditor id="editor">
+</div>
+<script>
+    ClassicEditor
+        .create(document.querySelector('#editor'))
+        .catch(error => {
+            console.error(error);
+        });
+</script>
+<button (click)="showData()">Show Data</button>
