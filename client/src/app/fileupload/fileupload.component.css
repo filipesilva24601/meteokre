@@ -2,4 +2,35 @@
     width: 128px;
     height: 128px;
     border: 2px dashed black;
+    border-radius: 15px;
+}
+
+#dragZone > span {
+    margin: auto;
+}
+
+#filePicker {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.collection {
+    text-align: center;
+}
+
+.keyholder {
+    background-color: rgb(32, 32, 32);
+    color: blanchedalmond;
+    padding: 1rem;
+    width: min-content;
+    margin: auto;
+}
+
+.card-panel {
+    text-align: center;
+    width: 100%;
 }

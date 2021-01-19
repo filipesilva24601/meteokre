@@ -1,6 +1,19 @@
-<h4>Meteokre</h4>
+<nav>
+  <div class="nav-wrapper">
+    <a href="#" class="brand-logo center">Meteokre</a>
+    <ul class="nav-mobile left">
+      <li>
+        <a routerLink="pastebin" (click)="setTitle('Pastebin')">Pastebin</a>
+      </li>
+      <li>
+        <a href="fileupload" (click)="setTitle('Image Upload')"
+          >Upload file</a
+        >
+      </li>
+    </ul>
+  </div>
+</nav>
 
-<a routerLink="pastebin" (click)="setTitle('Pastebin')">Pastebin</a>
-<a routerLink="fileupload" (click)="setTitle('Image Upload')">Upload file</a>
-
-<router-outlet></router-outlet>
+<div id="content">
+  <router-outlet></router-outlet>
+</div>

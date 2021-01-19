@@ -6,12 +6,12 @@ import { PastebinComponent } from './pastebin/pastebin.component';
 
 const routes: Routes = [
   { path: 'pastebin', component: PastebinComponent },
-  { path: 'image/:id', component: ImageviewComponent},
-  { path: 'fileupload', component: FileuploadComponent}
+  { path: 'image/:id', component: ImageviewComponent },
+  { path: 'fileupload', component: FileuploadComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

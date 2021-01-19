@@ -3,10 +3,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, from } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
 
-function ab2b64(buf) {
-  return window.btoa(String.fromCharCode.apply(null, new Uint8Array(buf)));
+function ab2b64(arrbuf: ArrayBuffer) {
+  const buf = new Uint8Array(arrbuf);
+  let s: string = '';
+  for (let i = 0; i < buf.length; i++) {
+    s = s + String.fromCharCode(buf[i])
+  }
+  return window.btoa(s);
 }
-function b642ab(str64) {
+function b642ab(str64: string) {
   const str = window.atob(str64);
   var buf = new ArrayBuffer(str.length);
   var bufView = new Uint8Array(buf);
@@ -24,10 +29,8 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  async getFile(id, encKey, ivKey) {
+  async getFile(id, encKey, ivKey): Promise<any> {
     const dec = new TextDecoder();
-    console.log(id, encKey, ivKey);
-    console.log(id, b642ab(encKey), b642ab(ivKey));
     const decKey = await window.crypto.subtle.importKey(
       'raw',
       b642ab(encKey),
@@ -54,7 +57,7 @@ export class ApiService {
       .toPromise();
   }
 
-  async postFile(fileBuffer: any, fileName, fileType) {
+  async postFile(fileBuffer: any, fileName, fileType): Promise<any> {
     const enc = new TextEncoder();
     const key = await window.crypto.subtle.generateKey(
       { name: 'AES-GCM', length: 128 },
@@ -62,6 +65,7 @@ export class ApiService {
       ['encrypt', 'decrypt']
     );
     const base64key = ab2b64(await window.crypto.subtle.exportKey('raw', key));
+    
     const iv = window.crypto.getRandomValues(new Uint8Array(12));
 
     const encrypted = await window.crypto.subtle.encrypt(
@@ -75,19 +79,18 @@ export class ApiService {
         })
       )
     );
+
     const form = new FormData();
     form.append('file', new Blob([encrypted]), '');
     return this.http
       .post(`${this.apiroot}/file`, form)
       .pipe(
         map((res: any) => {
-          console.log('sent file');
           res.encKey = base64key;
           res.ivKey = ab2b64(iv);
           return res;
         }),
         first()
-      )
-      .toPromise();
+      ).toPromise();
   }
 }

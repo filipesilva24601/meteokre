@@ -8,7 +8,7 @@ import { ApiService } from '../api.service';
   styleUrls: ['./imageview.component.css'],
 })
 export class ImageviewComponent implements OnInit {
-  @Input() image: string;
+  image: string;
   encryptionKey: string;
 
   constructor(private route: ActivatedRoute, private api: ApiService) {}

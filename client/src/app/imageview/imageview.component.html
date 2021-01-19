@@ -1,10 +1,12 @@
-<div>
-    <img [src]="image">
+<div id="container">
+  <img *ngIf="image; else decrypt" [src]="image" />
+  <ng-template #decrypt>
     <div>
-        <div>
-            <label for="encKey">Encryption Key</label>
-            <input id="encKey" type="text" [(ngModel)]="encryptionKey">
-        </div>
-        <button (click)="getImage()">Fetch and decrypt</button>
+      <div>
+        <label for="encKey">Decryption Key</label>
+        <input id="encKey" type="text" [(ngModel)]="encryptionKey" />
+      </div>
+      <button class="btn" (click)="getImage()">Fetch and decrypt</button>
     </div>
+  </ng-template>
 </div>

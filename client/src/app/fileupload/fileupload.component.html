@@ -1,13 +1,44 @@
-<div *ngIf="!fileId;else showID">
-    <div id="dragZone" (drop)="dropHandler($event);"></div>
-    <input type="file" (change)="setFileToUpload($event.target.files)" [files]="filesToUpload">
-    <button (click)="uploadFile()">Upload</button>
+<div id="container" *ngIf="!fileIds; else showID">
+  <div id="dragZone" class="valign-wrapper" (drop)="dropHandler($event)">
+    <span>Drop files here</span>
+  </div>
+  <label>
+    <input
+      #filePicker
+      id="filePicker"
+      type="file"
+      (change)="setFilesToUpload($event.target.files)"
+      multiple
+    />
+    <span class="btn">Pick Files</span>
+  </label>
+  <div *ngIf="filesToUpload">
+    <ul class="collection">
+      <li *ngFor="let file of filesToUpload" class="collection-item">
+        {{ file.name }}
+      </li>
+    </ul>
+  </div>
+  <div>
+    <button class="btn" (click)="uploadFile()">Upload</button>
+  </div>
 </div>
 
 <ng-template #showID>
-    <div>
-        <p>Uploaded file successfully with ID <a routerLink="/image/{{fileId}}">{{fileId}}</a></p>
-        <p>Encryption key <span>{{encryptionKey}}</span></p>
-        <button (click)="reset()">Upload another file</button>
+  <div id="container">
+    <div *ngFor="let upFile of fileIds" class="card-panel">
+      <div>
+        Uploaded file "{{ upFile.file.name }}" successfully with ID
+        <a routerLink="/image/{{ upFile.fileid }}">{{ upFile.fileid }}</a>
+      </div>
+      <div>
+        Decryption key. Don't lose it!
+        <br />
+      </div>
+      <div class="keyholder">
+        <code>{{ upFile.ivKey }}#{{ upFile.encKey }}</code>
+      </div>
     </div>
+    <button class="btn" (click)="reset()">Upload more files</button>
+  </div>
 </ng-template>
