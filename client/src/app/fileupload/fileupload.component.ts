@@ -1,6 +1,12 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Observable, zip } from 'rxjs';
+import { forkJoin, Observable, zip } from 'rxjs';
 import { ApiService } from '../api.service';
 
 @Component({
@@ -8,15 +14,18 @@ import { ApiService } from '../api.service';
   templateUrl: './fileupload.component.html',
   styleUrls: ['./fileupload.component.css'],
 })
-export class FileuploadComponent implements OnInit {
+export class FileuploadComponent implements OnInit, OnDestroy {
   @ViewChild('filePicker') filePicker: ElementRef;
-  filesToUpload: FileList;
+  filesToUpload: File[];
   fileIds: any[];
 
   constructor(private api: ApiService, private titleService: Title) {}
 
   ngOnInit(): void {
-    this.titleService.setTitle("File Upload");
+    this.titleService.setTitle('File Upload');
+
+    this.filesToUpload = [];
+    this.fileIds = [];
 
     document.body.addEventListener(
       'dragover',
@@ -36,38 +45,46 @@ export class FileuploadComponent implements OnInit {
     );
   }
 
+  ngOnDestroy() {
+    this.fileIds = [];
+    this.filesToUpload = [];
+  }
+
   setFilesToUpload(files: FileList): void {
-    this.filesToUpload = files;
+    Array.from(files).forEach((file) => {
+      this.filesToUpload.push(file);
+    });
   }
 
   uploadFile() {
-    zip(
-      ...Array.from(this.filesToUpload).map((file) => {
-        return new Observable((subscriber) => {
+    forkJoin(
+      this.filesToUpload.map((file) => {
+        return new Promise((resolve, reject) => {
           const reader = new FileReader();
           reader.onloadend = (r) => {
             this.api
               .postFile(reader.result, file.name, file.type)
               .then((res: any) => {
                 res.file = file;
-                subscriber.next(res);
+                resolve(res);
               });
           };
           reader.readAsArrayBuffer(file);
         });
       })
-    ).subscribe((res) => this.fileIds = res);
+    ).subscribe((res) => {
+      this.fileIds = res;
+    });
   }
 
   reset() {
-    this.filesToUpload = null;
-    this.fileIds = null;
+    this.filesToUpload = [];
+    this.fileIds = [];
     this.filePicker.nativeElement.files = null;
   }
 
   dropHandler(ev: DragEvent) {
     this.setFilesToUpload(ev.dataTransfer.files);
-    this.filePicker.nativeElement.files = ev.dataTransfer.files;
   }
 
   dragOverHandler(ev) {

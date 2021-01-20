@@ -1,13 +1,26 @@
-/* You can add global styles to this file, and also import other style files */
-#content {
-    width: 80%;
-    margin: auto;
-    margin-top: 1rem;
+body {
+    margin: 0;
 }
 
-#container {
+.container {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+#toast-container {
+    top: auto !important;
+    right: auto !important;
+    bottom: 10%;
+    left:7%;
+}
+
+.halign-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+}
+
+.select {
+    user-select: all;
 }

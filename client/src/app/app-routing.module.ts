@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FileuploadComponent } from './fileupload/fileupload.component';
-import { ImageviewComponent } from './imageview/imageview.component';
+import { FileViewComponent } from './fileview/fileview.component';
 import { PastebinComponent } from './pastebin/pastebin.component';
 
 const routes: Routes = [
   { path: 'pastebin', component: PastebinComponent },
-  { path: 'image/:id', component: ImageviewComponent },
+  { path: 'file/:id', component: FileViewComponent },
+  { path: 'file', component: FileViewComponent },
   { path: 'fileupload', component: FileuploadComponent },
+  { path: '**', redirectTo: '/pastebin', pathMatch: 'full' },
 ];
 
 @NgModule({

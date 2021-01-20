@@ -26,7 +26,7 @@
     background-color: rgb(32, 32, 32);
     color: blanchedalmond;
     padding: 1rem;
-    width: min-content;
+    width: max-content;
     margin: auto;
 }
 

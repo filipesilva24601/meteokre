@@ -1,10 +1,41 @@
-<div #textEditor id="editor">
+<div>
+  <div class="row">
+    <div class="col s4">
+      <div class="input-field">
+        <label for="file-name">File name</label>
+        <input id="file-name" type="text" [(ngModel)]="fileName" />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12">
+      <div class="input-field">
+        <label for="editor">Text</label>
+        <textarea
+          id="editor"
+          [(ngModel)]="text"
+          class="materialize-textarea"
+        ></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s2 offset-s10">
+      <button class="btn" type="submit" (click)="uploadText()">
+        Upload text <i class="material-icons right">send</i>
+      </button>
+    </div>
+  </div>
+  <div *ngIf="fileInfo" class="divider"></div>
+  <div *ngIf="fileInfo" class="row">
+    <div class="col">
+      <div class="section">
+        Text was uploaded.
+        <br>
+        ID <span class="select">{{ fileInfo.fileid }}</span>
+        <br>
+        Decryption key <span class="select">{{ fileInfo.ivKey }}#{{ fileInfo.encKey }}</span>
+      </div>
+    </div>
+  </div>
 </div>
-<script>
-    ClassicEditor
-        .create(document.querySelector('#editor'))
-        .catch(error => {
-            console.error(error);
-        });
-</script>
-<button class="btn" type="submit" (click)="showData()">Upload text <i class="material-icons right">send</i></button>

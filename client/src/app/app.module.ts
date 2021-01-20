@@ -6,14 +6,14 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { PastebinComponent } from './pastebin/pastebin.component';
-import { ImageviewComponent } from './imageview/imageview.component';
+import { FileViewComponent } from './fileview/fileview.component';
 import { FileuploadComponent } from './fileupload/fileupload.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PastebinComponent,
-    ImageviewComponent,
+    FileViewComponent,
     FileuploadComponent
   ],
   imports: [

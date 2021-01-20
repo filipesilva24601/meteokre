@@ -1,0 +1,12 @@
+#editor {
+    font-family: monospace;
+}
+
+#editor-div {
+    width: 100%;
+}
+
+span {
+    font-weight: bold;
+    font-size: 1.1rem;
+}

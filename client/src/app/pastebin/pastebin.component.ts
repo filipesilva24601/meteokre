@@ -1,29 +1,30 @@
-import { Component, OnInit } from '@angular/core';
-
-declare var ClassicEditor: any;
+import { Component, Input, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-pastebin',
   templateUrl: './pastebin.component.html',
-  styleUrls: ['./pastebin.component.css']
+  styleUrls: ['./pastebin.component.css'],
 })
 export class PastebinComponent implements OnInit {
+  @Input() fileName: string;
+  @Input() text: string;
+  fileInfo: any;
 
-  editor;
-
-  constructor() { }
+  constructor(private api: ApiService, private titleService: Title) {}
 
   ngOnInit(): void {
-    ClassicEditor
-      .create(document.querySelector('#editor')).then(editor => this.editor = editor)
-      .catch(error => {
-        console.error(error);
-      });
-    console.log(this.editor);
+    this.titleService.setTitle('Pastebin');
   }
 
-  showData() {
-    console.log(this.editor.getData());
+  uploadText() {
+    const enc = new TextEncoder();
+    const abText = enc.encode(this.text);
+    console.log(abText);
+    this.api
+      .postFile(abText, this.fileName, 'text/plain')
+      .then((res) => (this.fileInfo = res));
   }
 
 }
