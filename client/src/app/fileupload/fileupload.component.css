@@ -17,20 +17,3 @@
 	position: absolute;
 	z-index: -1;
 }
-
-.collection {
-    text-align: center;
-}
-
-.keyholder {
-    background-color: rgb(32, 32, 32);
-    color: blanchedalmond;
-    padding: 1rem;
-    width: max-content;
-    margin: auto;
-}
-
-.card-panel {
-    text-align: center;
-    width: 100%;
-}

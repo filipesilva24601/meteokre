@@ -8,13 +8,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { PastebinComponent } from './pastebin/pastebin.component';
 import { FileViewComponent } from './fileview/fileview.component';
 import { FileuploadComponent } from './fileupload/fileupload.component';
+import { FileuploadstatusComponent } from './fileuploadstatus/fileuploadstatus.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PastebinComponent,
     FileViewComponent,
-    FileuploadComponent
+    FileuploadComponent,
+    FileuploadstatusComponent
   ],
   imports: [
     BrowserModule,

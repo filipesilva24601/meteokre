@@ -4,10 +4,12 @@ import {
   OnDestroy,
   ElementRef,
   ViewChild,
+  ViewChildren,
+  QueryList,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { forkJoin, Observable, zip } from 'rxjs';
 import { ApiService } from '../api.service';
+import { FileuploadstatusComponent } from '../fileuploadstatus/fileuploadstatus.component';
 
 @Component({
   selector: 'app-fileupload',
@@ -15,9 +17,9 @@ import { ApiService } from '../api.service';
   styleUrls: ['./fileupload.component.css'],
 })
 export class FileuploadComponent implements OnInit, OnDestroy {
+  @ViewChildren(FileuploadstatusComponent) statuses: QueryList<FileuploadstatusComponent>;
   @ViewChild('filePicker') filePicker: ElementRef;
   filesToUpload: File[] = [];
-  fileIds: any[] = [];
 
   constructor(private api: ApiService, private titleService: Title) {}
 
@@ -45,29 +47,11 @@ export class FileuploadComponent implements OnInit, OnDestroy {
   }
 
   uploadFile() {
-    forkJoin(
-      this.filesToUpload.map((file) => {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onloadend = (r) => {
-            this.api
-              .postFile(reader.result, file.name, file.type)
-              .then((res: any) => {
-                res.file = file;
-                resolve(res);
-              });
-          };
-          reader.readAsArrayBuffer(file);
-        });
-      })
-    ).subscribe((res) => {
-      this.fileIds = res;
-    });
+    this.statuses.map(s => s.uploadFile());
   }
 
   reset() {
     this.filesToUpload = [];
-    this.fileIds = [];
     this.filePicker.nativeElement.files = null;
   }
 

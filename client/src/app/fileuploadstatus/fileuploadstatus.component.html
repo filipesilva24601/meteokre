@@ -1,0 +1,9 @@
+<td class="file-name"><span class="select">{{file.name}}</span></td>
+<ng-container *ngIf="fileid">
+    <td><span class="select">{{fileid}}</span></td>
+    <td><span class="select">{{ivKey}}#{{encKey}}</span></td>
+</ng-container>
+<ng-container *ngIf="!fileid">
+    <td>Not uploaded</td>
+    <td>Not uploaded</td>
+</ng-container>

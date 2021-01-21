@@ -1,0 +1,9 @@
+.file-name {
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
+td {
+    overflow-wrap: normal;
+    white-space: nowrap;
+}
