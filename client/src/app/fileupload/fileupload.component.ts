@@ -16,38 +16,26 @@ import { ApiService } from '../api.service';
 })
 export class FileuploadComponent implements OnInit, OnDestroy {
   @ViewChild('filePicker') filePicker: ElementRef;
-  filesToUpload: File[];
-  fileIds: any[];
+  filesToUpload: File[] = [];
+  fileIds: any[] = [];
 
   constructor(private api: ApiService, private titleService: Title) {}
+
+  private handleDrag(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
 
   ngOnInit(): void {
     this.titleService.setTitle('File Upload');
 
-    this.filesToUpload = [];
-    this.fileIds = [];
-
-    document.body.addEventListener(
-      'dragover',
-      function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-      },
-      false
-    );
-    document.body.addEventListener(
-      'drop',
-      function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-      },
-      false
-    );
+    document.body.addEventListener('dragover', this.handleDrag, false);
+    document.body.addEventListener('drop', this.handleDrag, false);
   }
 
   ngOnDestroy() {
-    this.fileIds = [];
-    this.filesToUpload = [];
+    document.body.removeEventListener('dragover', this.handleDrag, false);
+    document.body.removeEventListener('drop', this.handleDrag, false);
   }
 
   setFilesToUpload(files: FileList): void {
