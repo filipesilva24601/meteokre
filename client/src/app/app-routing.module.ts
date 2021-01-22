@@ -6,8 +6,8 @@ import { PastebinComponent } from './pastebin/pastebin.component';
 
 const routes: Routes = [
   { path: 'pastebin', component: PastebinComponent },
-  { path: 'file/:id', component: FileViewComponent },
-  { path: 'file', component: FileViewComponent },
+  { path: 'fileview/:id', component: FileViewComponent },
+  { path: 'fileview', component: FileViewComponent },
   { path: 'fileupload', component: FileuploadComponent },
   { path: '**', redirectTo: '/pastebin', pathMatch: 'full' },
 ];
