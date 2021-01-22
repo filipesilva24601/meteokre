@@ -57,15 +57,11 @@ export class FileViewComponent implements OnInit {
           this.text = new TextDecoder().decode(b642ab(fileInfo.data));
         } else if (fileInfo.fileType.startsWith("image/")) {
           this.image = `data:${fileInfo.fileType};base64,${fileInfo.data}`;
-        } else {
-          const temp = new Blob([b642ab(fileInfo.data)], {type: fileInfo.fileType});
-          console.log(temp);
-          this.url = this.sanitizer.bypassSecurityTrustUrl((URL.createObjectURL(temp)));
-          console.log(this.url);
-        }
+        } 
+        const temp = new Blob([b642ab(fileInfo.data)], {type: fileInfo.fileType});
+        this.url = this.sanitizer.bypassSecurityTrustUrl((URL.createObjectURL(temp)));
       })
       .catch((err) => {
-        console.log('Error getting file: ', err);
         //this.message = 'Failed to decrypt file.';
         M.toast({ html: 'Failed to decrypt file.', displayLength: 10000 });
       });

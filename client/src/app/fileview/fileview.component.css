@@ -1,3 +1,13 @@
 .row {
     width: 100%;
 }
+
+img {
+    display: block;
+    margin: auto;
+}
+
+input[type="text"]:not(.browser-default):disabled, textarea.materialize-textarea:disabled {
+    color: rgba(0,0,0,0.87);
+    border-bottom: 1px solid #9e9e9e;
+}
