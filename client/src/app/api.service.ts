@@ -13,7 +13,7 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  async getFile(id, encKey, ivKey) {
+  getFile(id, encKey, ivKey) {
     const dec = new TextDecoder();
     return window.crypto.subtle.importKey(
       'raw',
@@ -51,7 +51,7 @@ export class ApiService {
       ['encrypt', 'decrypt']
     );
     const base64key = ab2b64(await window.crypto.subtle.exportKey('raw', key));
-    
+
     const iv = window.crypto.getRandomValues(new Uint8Array(12));
 
     const encrypted = await window.crypto.subtle.encrypt(
@@ -72,7 +72,6 @@ export class ApiService {
       .post(`${this.apiroot}/file`, form)
       .pipe(
         map((res: any) => {
-          console.log("sent file", res)
           res.encKey = base64key;
           res.ivKey = ab2b64(iv);
           return res;
