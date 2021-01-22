@@ -47,7 +47,7 @@ export class FileuploadComponent implements OnInit, OnDestroy {
   }
 
   uploadFile() {
-    this.statuses.map(s => s.uploadFile());
+    this.statuses.map(s => s.uploadFileOnce());
   }
 
   reset() {

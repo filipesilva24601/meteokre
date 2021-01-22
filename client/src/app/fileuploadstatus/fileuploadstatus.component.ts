@@ -8,6 +8,7 @@ import { ApiService } from '../api.service';
 })
 export class FileuploadstatusComponent implements OnInit {
   @Input() file: File;
+  @Input() fileName: string;
   fileid: string;
   encKey: string;
   ivKey: string;
@@ -15,6 +16,13 @@ export class FileuploadstatusComponent implements OnInit {
   constructor(private api: ApiService) {}
 
   ngOnInit(): void {}
+
+  uploadFileOnce() {
+    if (this.fileid) {
+      return;
+    }
+    this.uploadFile();
+  }
 
   uploadFile() {
     if (this.fileid) {

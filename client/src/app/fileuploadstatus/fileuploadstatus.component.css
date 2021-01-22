@@ -1,6 +1,7 @@
 .file-name {
     overflow-wrap: anywhere;
     white-space: normal;
+    min-width: 30%;
 }
 
 td {

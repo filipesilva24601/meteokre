@@ -26,16 +26,10 @@
       </button>
     </div>
   </div>
-  <div *ngIf="fileInfo" class="divider"></div>
-  <div *ngIf="fileInfo" class="row">
-    <div class="col">
-      <div class="section">
-        Text was uploaded.
-        <br>
-        ID <span class="select">{{ fileInfo.fileid }}</span>
-        <br>
-        Decryption key <span class="select">{{ fileInfo.ivKey }}#{{ fileInfo.encKey }}</span>
-      </div>
-    </div>
-  </div>
+  <div class="divider"></div>
+  <table class="striped responsive-table">
+    <thead><th>File Name</th><th>File ID</th><th>Decryption key</th></thead>
+    <tr *ngFor="let file of filesToUpload" app-fileuploadstatus [file]="file" >
+    </tr>
+  </table>
 </div>

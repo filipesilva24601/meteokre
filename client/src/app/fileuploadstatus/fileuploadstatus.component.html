@@ -1,4 +1,4 @@
-<td class="file-name"><span class="select">{{file.name}}</span></td>
+<td class="file-name"><span class="select">{{file ? file.name : (fileName ? fileName: "No file name given yet")}}</span></td>
 <ng-container *ngIf="fileid">
     <td><span class="select">{{fileid}}</span></td>
     <td><span class="select">{{ivKey}}#{{encKey}}</span></td>

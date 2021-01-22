@@ -1,13 +1,24 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  AfterViewInit,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ApiService } from '../api.service';
+import { FileuploadstatusComponent } from '../fileuploadstatus/fileuploadstatus.component';
 
 @Component({
   selector: 'app-pastebin',
   templateUrl: './pastebin.component.html',
   styleUrls: ['./pastebin.component.css'],
 })
-export class PastebinComponent implements OnInit {
+export class PastebinComponent implements OnInit, AfterViewInit {
+  filesToUpload: File[] = [];
+  @ViewChildren(FileuploadstatusComponent)
+  statuses: QueryList<FileuploadstatusComponent>;
   @Input() fileName: string;
   @Input() text: string;
   fileInfo: any;
@@ -18,13 +29,20 @@ export class PastebinComponent implements OnInit {
     this.titleService.setTitle('Pastebin');
   }
 
+  ngAfterViewInit() {
+    this.statuses.notifyOnChanges();
+    this.statuses.changes.subscribe((qlist) => {
+      qlist.map((f: FileuploadstatusComponent) => {
+        f.uploadFileOnce();
+      });
+    });
+  }
+
   uploadText() {
     const enc = new TextEncoder();
     const abText = enc.encode(this.text);
-    console.log(abText);
-    this.api
-      .postFile(abText, this.fileName, 'text/plain')
-      .then((res) => (this.fileInfo = res));
+    this.filesToUpload.push(
+      new File([abText], this.fileName, { type: 'text/plain' })
+    );
   }
-
 }
