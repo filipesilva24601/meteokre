@@ -9,6 +9,7 @@ import { PastebinComponent } from './pastebin/pastebin.component';
 import { FileViewComponent } from './fileview/fileview.component';
 import { FileuploadComponent } from './fileupload/fileupload.component';
 import { FileuploadstatusComponent } from './fileuploadstatus/fileuploadstatus.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { FileuploadstatusComponent } from './fileuploadstatus/fileuploadstatus.c
     PastebinComponent,
     FileViewComponent,
     FileuploadComponent,
-    FileuploadstatusComponent
+    FileuploadstatusComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
