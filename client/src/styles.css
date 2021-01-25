@@ -24,3 +24,8 @@ body {
 .select {
     user-select: all;
 }
+
+.material-icons {
+    vertical-align: top;
+    padding-left: .5rem;
+}
