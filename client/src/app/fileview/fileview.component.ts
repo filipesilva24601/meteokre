@@ -54,11 +54,11 @@ export class FileViewComponent implements OnInit {
       .then((fileInfo) => {
         this.fileInfo = fileInfo;
         if (fileInfo.fileType === 'text/plain') {
-          this.text = new TextDecoder().decode(b642ab(fileInfo.data));
+          this.text = new TextDecoder().decode(fileInfo.data);
         } else if (fileInfo.fileType.startsWith("image/")) {
-          this.image = `data:${fileInfo.fileType};base64,${fileInfo.data}`;
+          this.image = `data:${fileInfo.fileType};base64,${ab2b64(fileInfo.data)}`;
         } 
-        const temp = new Blob([b642ab(fileInfo.data)], {type: fileInfo.fileType});
+        const temp = new Blob([fileInfo.data], {type: fileInfo.fileType});
         this.url = this.sanitizer.bypassSecurityTrustUrl((URL.createObjectURL(temp)));
       })
       .catch((err) => {

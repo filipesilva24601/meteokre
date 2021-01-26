@@ -28,16 +28,12 @@ export class FileuploadstatusComponent implements OnInit {
     if (this.fileid) {
       return;
     }
-    const reader = new FileReader();
-    reader.onloadend = (r) => {
-      this.api
-        .postFile(reader.result, this.file.name, this.file.type)
-        .then((res: any) => {
-          this.fileid = res.fileid;
-          this.encKey = res.encKey;
-          this.ivKey = res.ivKey;
-        });
-    };
-    reader.readAsArrayBuffer(this.file);
+    this.file.arrayBuffer().then((ab) => {
+      this.api.postFile(ab, this.file.name, this.file.type).then((res: any) => {
+        this.fileid = res.fileid;
+        this.encKey = res.encKey;
+        this.ivKey = res.ivKey;
+      });
+    });
   }
 }

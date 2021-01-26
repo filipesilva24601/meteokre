@@ -11,20 +11,37 @@ var fs = require("fs");
 var basepath = "./test";
 var root = path.parse(__dirname).dir;
 
-/* GET home page. */
-router.get("/file", function (req, res, next) {
-  res.render("api", { target: "files" });
-});
-
 router.get("/file/:fileid", function (req, res, next) {
   res.sendFile(path.join(basepath, "files", req.params.fileid), { root: root });
 });
 
-router.post("/file", function (req, res, next) {
+router.get("/file/meta/:fileid", function (req, res, next) {
+  res.sendFile(path.join(basepath, "files", req.params.fileid + ".meta"), {
+    root: root,
+  });
+});
+
+router.post("/file/upload/:fileid", function (req, res, next) {
+  var busboy = new Busboy({ headers: req.headers });
+  let id = req.params.fileid;
+  busboy.on("file", function (fieldname, file, filename, encoding, mimetype) {
+    var filePath = path.join(basepath, "files", id);
+    file.pipe(fs.createWriteStream(filePath));
+  });
+  busboy.on("finish", function () {
+    res.send({ fileid: id });
+  });
+  busboy.on("error", function (err) {
+    res.status(500).send({ error: err });
+  });
+  return req.pipe(busboy);
+});
+
+router.post("/file/meta", function (req, res, next) {
   var busboy = new Busboy({ headers: req.headers });
   let id = uuidv4();
   busboy.on("file", function (fieldname, file, filename, encoding, mimetype) {
-    var filePath = path.join(basepath, "files", path.basename(id));
+    var filePath = path.join(basepath, "files", id + ".meta");
     file.pipe(fs.createWriteStream(filePath));
   });
   busboy.on("finish", function () {
