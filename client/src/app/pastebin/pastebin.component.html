@@ -27,9 +27,11 @@
     </div>
   </div>
   <div class="divider"></div>
-  <table class="striped responsive-table">
-    <thead><th>File Name</th><th>File ID</th><th>Decryption key</th></thead>
-    <tr *ngFor="let file of filesToUpload" app-fileuploadstatus [file]="file" >
-    </tr>
+  <table class="responsive-table">
+    <thead><th>File Name</th><th>Status</th></thead>
+    <tbody>
+      <tr *ngFor="let file of filesToUpload" app-fileuploadstatus [file]="file" >
+      </tr>
+    </tbody>
   </table>
 </div>
