@@ -32,10 +32,17 @@
         Fetch and decrypt
       </button>
     </div>
-    <a class="right" *ngIf="url" [href]="url" [download]="fileInfo.fileName"><div class="btn">Download File</div></a>
+    <a class="right" *ngIf="url" [href]="url" [download]="fileName"><div class="btn">Download File</div></a>
+  </div>
+  <div class="col">
+    {{message}}
   </div>
   <div class="row" *ngIf="image">
-    <div class="col s12">
+    <div *ngIf="!viewImage" class="col">
+      <div>File appears to be an image. View it in the browser?</div>
+      <button class="btn" (click)="viewImageToggle()">View</button>
+    </div>
+    <div *ngIf="viewImage" class="col s12">
       <img [src]="image" />
     </div>
   </div>
@@ -44,7 +51,7 @@
       <div class="col s4">
         <div>
           <label for="file-name">File name</label>
-          <input id="file-name" type="text" [(ngModel)]="fileInfo.fileName" disabled/>
+          <input id="file-name" type="text" [(ngModel)]="fileName" disabled/>
         </div>
       </div>
     </div>

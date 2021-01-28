@@ -13,74 +13,29 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  getFile(id, encKey, ivKey) {
-    const dec = new TextDecoder();
-    return window.crypto.subtle
-      .importKey('raw', b642ab(encKey), 'AES-GCM', true, ['decrypt', 'encrypt'])
-      .then((decKey) => {
-        const decIVKey = b642ab(ivKey);
+  getMeta(id) {
+    return this.http.get(`${this.apiroot}/meta/${id}`, {
+      responseType: 'blob',
+    });
+  }
 
-        return forkJoin([
-          this.http
-            .get(`${this.apiroot}/meta/${id}`, {
-              responseType: 'blob',
-            })
-            .pipe(
-              switchMap(async (blob: Blob) => {
-                const blobBuffer = await blob.arrayBuffer();
-                return window.crypto.subtle
-                  .decrypt(
-                    { name: 'AES-GCM', iv: decIVKey },
-                    decKey,
-                    blobBuffer
-                  )
-                  .then((t) => {
-                    return JSON.parse(dec.decode(t));
-                  });
-              })
-            ),
-          this.http
-            .get(`${this.apiroot}/file/${id}`, {
-              responseType: 'blob',
-            })
-            .pipe(
-              switchMap(async (blob: Blob) => {
-                const blobBuffer = await blob.arrayBuffer();
-                return window.crypto.subtle.decrypt(
-                  { name: 'AES-GCM', iv: decIVKey },
-                  decKey,
-                  blobBuffer
-                );
-              })
-            ),
-        ])
-          .pipe(
-            map(([meta, file]) => {
-              return {
-                fileName: meta.fileName,
-                fileType: meta.fileType,
-                data: file,
-              };
-            }),
-            first()
-          )
-          .toPromise();
-      });
+  getFile(id) {
+    return this.http.get(`${this.apiroot}/file/${id}`, {
+      responseType: 'blob',
+    });
   }
 
   postMeta(encryptedData: ArrayBuffer) {
     const form = new FormData();
     form.append('file', new Blob([encryptedData]));
 
-    return this.http
-      .post(`${this.apiroot}/meta`, form);
+    return this.http.post(`${this.apiroot}/meta`, form);
   }
 
   postFile(encryptedData: ArrayBuffer, fileid: string) {
     const form = new FormData();
     form.append('file', new Blob([encryptedData]));
 
-    return this.http
-      .post(`${this.apiroot}/file/${fileid}`, form);
+    return this.http.post(`${this.apiroot}/file/${fileid}`, form);
   }
 }

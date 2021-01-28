@@ -5,6 +5,7 @@
 img {
     display: block;
     margin: auto;
+    width: 100%;
 }
 
 input[type="text"]:not(.browser-default):disabled, textarea.materialize-textarea:disabled {
