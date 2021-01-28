@@ -15,13 +15,13 @@ router.get("/file/:fileid", function (req, res, next) {
   res.sendFile(path.join(basepath, "files", req.params.fileid), { root: root });
 });
 
-router.get("/file/meta/:fileid", function (req, res, next) {
+router.get("/meta/:fileid", function (req, res, next) {
   res.sendFile(path.join(basepath, "files", req.params.fileid + ".meta"), {
     root: root,
   });
 });
 
-router.post("/file/upload/:fileid", function (req, res, next) {
+router.post("/file/:fileid", function (req, res, next) {
   var busboy = new Busboy({ headers: req.headers });
   let id = req.params.fileid;
   busboy.on("file", function (fieldname, file, filename, encoding, mimetype) {
@@ -37,7 +37,7 @@ router.post("/file/upload/:fileid", function (req, res, next) {
   return req.pipe(busboy);
 });
 
-router.post("/file/meta", function (req, res, next) {
+router.post("/meta", function (req, res, next) {
   var busboy = new Busboy({ headers: req.headers });
   let id = uuidv4();
   busboy.on("file", function (fieldname, file, filename, encoding, mimetype) {

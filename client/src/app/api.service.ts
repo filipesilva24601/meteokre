@@ -22,7 +22,7 @@ export class ApiService {
 
         return forkJoin([
           this.http
-            .get(`${this.apiroot}/file/meta/${id}`, {
+            .get(`${this.apiroot}/meta/${id}`, {
               responseType: 'blob',
             })
             .pipe(
@@ -73,7 +73,7 @@ export class ApiService {
     form.append('file', new Blob([encryptedData]));
 
     return this.http
-      .post(`${this.apiroot}/file/meta`, form);
+      .post(`${this.apiroot}/meta`, form);
   }
 
   postFile(encryptedData: ArrayBuffer, fileid: string) {
@@ -81,6 +81,6 @@ export class ApiService {
     form.append('file', new Blob([encryptedData]));
 
     return this.http
-      .post(`${this.apiroot}/file/upload/${fileid}`, form);
+      .post(`${this.apiroot}/file/${fileid}`, form);
   }
 }
