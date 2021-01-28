@@ -1,8 +1,10 @@
 <td class="file-name"><span class="select">{{file ? file.name : (fileName ? fileName: "No file name given yet")}}</span></td>
 <ng-container *ngIf="fileid">
     <td>
-        <div><b>File ID: </b><span class="select">{{fileid}}</span><a routerLink="/fileview/{{fileid}}"><span class="material-icons">link</span></a></div>
-        <div><b>Decryption Key: </b><span class="select">{{ivKey}}#{{encKey}}</span></div>
+        <div><b>File ID: </b></div>
+        <span class="select">{{fileid}}</span><a routerLink="/fileview/{{fileid}}"><span class="material-icons">link</span></a>
+        <div><b>Decryption Key: </b></div>
+        <span class="select">{{ivKey}}#{{encKey}}</span>
     </td>
 </ng-container>
 <ng-container *ngIf="!fileid">

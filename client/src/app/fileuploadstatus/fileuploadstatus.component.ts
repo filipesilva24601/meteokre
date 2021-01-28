@@ -38,7 +38,6 @@ export class FileuploadstatusComponent implements OnInit {
 
     const enc = new TextEncoder();
 
-    this.message = 'Generating key';
     window.crypto.subtle
       .generateKey({ name: 'AES-GCM', length: 128 }, true, [
         'encrypt',
