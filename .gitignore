@@ -41,3 +41,5 @@ test
 cert.pem
 csr.pem
 key.pem
+
+db.sqlite

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { UserService } from './user.service';
 
 @Component({
   selector: 'app-root',
@@ -7,10 +8,11 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  public constructor(private titleService: Title) {}
+  public constructor(private titleService: Title, public userService: UserService) {}
 
   ngOnInit() {
     this.setTitle('Meteokre');
+    this.userService.authcheck();
   }
 
   public setTitle(newTitle: string) {

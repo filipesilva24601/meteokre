@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col s4 offset-s4">
+    <form action="#">
+      <label for="username"
+        >Username
+        <input type="text" name="username" id="username" [(ngModel)]="username"
+      /></label>
+      <label for="password"
+        >Password
+        <input
+          type="password"
+          name="password"
+          id="password"
+          [(ngModel)]="password"
+      /></label>
+      <button class="btn" (click)="login()">Login</button>
+    </form>
+  </div>
+  <div class="col s4 offset-s4" *ngIf="message">
+    <div class="card red darken-1 white-text center-align">
+      <div class="card-content">
+        {{ message }}
+      </div>
+    </div>
+  </div>
+</div>

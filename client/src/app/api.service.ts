@@ -10,8 +10,16 @@ import { ab2b64, b642ab } from './helpers';
 })
 export class ApiService {
   apiroot: string = 'https://localhost:3000/api';
+  userroot: string = 'https://localhost:3000/users';
 
   constructor(private http: HttpClient) {}
+
+  authcheck() {
+    return this.http.get(`${this.userroot}/authcheck`, {
+      withCredentials: true,
+      observe: 'response',
+    });
+  }
 
   getMeta(id) {
     return this.http.get(`${this.apiroot}/meta/${id}`, {
@@ -37,5 +45,21 @@ export class ApiService {
     form.append('file', new Blob([encryptedData]));
 
     return this.http.post(`${this.apiroot}/file/${fileid}`, form);
+  }
+
+  login(username: string, password: string) {
+    const data = { username: username, password: password };
+    return this.http.post(`${this.userroot}/login`, data, {
+      withCredentials: true,
+      observe: 'response',
+    });
+  }
+
+  register(username: string, password: string) {
+    const data = { username: username, password: password };
+    return this.http.post(`${this.userroot}/register`, data, {
+      withCredentials: true,
+      observe: 'response',
+    });
   }
 }

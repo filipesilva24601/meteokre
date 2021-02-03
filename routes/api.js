@@ -8,6 +8,8 @@ var path = require("path");
 var os = require("os");
 var fs = require("fs");
 
+var restrict = require("../auth");
+
 var basepath = "./test";
 var root = path.parse(__dirname).dir;
 
@@ -21,7 +23,7 @@ router.get("/meta/:fileid", function (req, res, next) {
   });
 });
 
-router.post("/file/:fileid", function (req, res, next) {
+router.post("/file/:fileid", restrict, function (req, res, next) {
   var busboy = new Busboy({ headers: req.headers });
   let id = req.params.fileid;
   busboy.on("file", function (fieldname, file, filename, encoding, mimetype) {
@@ -37,7 +39,7 @@ router.post("/file/:fileid", function (req, res, next) {
   return req.pipe(busboy);
 });
 
-router.post("/meta", function (req, res, next) {
+router.post("/meta", restrict, function (req, res, next) {
   var busboy = new Busboy({ headers: req.headers });
   let id = uuidv4();
   busboy.on("file", function (fieldname, file, filename, encoding, mimetype) {

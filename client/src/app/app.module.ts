@@ -10,6 +10,8 @@ import { FileViewComponent } from './fileview/fileview.component';
 import { FileuploadComponent } from './fileupload/fileupload.component';
 import { FileuploadstatusComponent } from './fileuploadstatus/fileuploadstatus.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     FileViewComponent,
     FileuploadComponent,
     FileuploadstatusComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
