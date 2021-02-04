@@ -4,7 +4,12 @@ var cors = require('cors');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var session = require("express-session");
+var session = require('express-session');
+var FileStore = require('session-file-store')(session);
+const { v4: uuidv4 } = require('uuid');
+var grant = require('grant');
+
+var fileStoreOptions = {}
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -13,9 +18,11 @@ var apiRouter = require('./routes/api');
 var app = express();
 
 app.use(session({
+  genid: (req) => {uuidv4()},
   secret: '37917a9b-ee9e-4b46-bd25-80d0d1cab213',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  store: new FileStore(fileStoreOptions)
 }))
 
 // view engine setup
