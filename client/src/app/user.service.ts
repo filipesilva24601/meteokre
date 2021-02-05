@@ -21,8 +21,10 @@ export class UserService {
   }
 
   logout() {
-    this.loggedIn = false;
-    this.username = null;
-    this.router.navigate(['/login']);
+    this.api.logout().subscribe((res) => {
+      this.loggedIn = false;
+      this.username = null;
+      this.router.navigate(['/login']);
+    });
   }
 }

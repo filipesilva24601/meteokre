@@ -37,14 +37,18 @@ export class ApiService {
     const form = new FormData();
     form.append('file', new Blob([encryptedData]));
 
-    return this.http.post(`${this.apiroot}/meta`, form);
+    return this.http.post(`${this.apiroot}/meta`, form, {
+      withCredentials: true,
+    });
   }
 
   postFile(encryptedData: ArrayBuffer, fileid: string) {
     const form = new FormData();
     form.append('file', new Blob([encryptedData]));
 
-    return this.http.post(`${this.apiroot}/file/${fileid}`, form);
+    return this.http.post(`${this.apiroot}/file/${fileid}`, form, {
+      withCredentials: true,
+    });
   }
 
   login(username: string, password: string) {
@@ -55,11 +59,18 @@ export class ApiService {
     });
   }
 
+  logout() {
+    return this.http.post(
+      `${this.userroot}/logout`,
+      {},
+      { withCredentials: true }
+    );
+  }
+
   register(username: string, password: string) {
     const data = { username: username, password: password };
     return this.http.post(`${this.userroot}/register`, data, {
-      withCredentials: true,
-      observe: 'response',
+      withCredentials: true
     });
   }
 }
