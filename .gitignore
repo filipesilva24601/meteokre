@@ -43,3 +43,6 @@ csr.pem
 key.pem
 
 db.sqlite
+
+grant_config.json
+sessions

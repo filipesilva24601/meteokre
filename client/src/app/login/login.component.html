@@ -1,5 +1,19 @@
 <div class="row">
   <div class="col s4 offset-s4">
+    <div>
+      <a href="/connect/google"
+        ><button class="btn">Login via Google</button></a
+      >
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col s4 offset-s4">
+    <div class="divider"></div>
+  </div>
+</div>
+<div class="row">
+  <div class="col s4 offset-s4">
     <form action="#">
       <label for="username"
         >Username
@@ -16,6 +30,8 @@
       <button class="btn" (click)="login()">Login</button>
     </form>
   </div>
+</div>
+<div class="row">
   <div class="col s4 offset-s4" *ngIf="message">
     <div class="card red darken-1 white-text center-align">
       <div class="card-content">
