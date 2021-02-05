@@ -4,22 +4,22 @@
       <div class="col s12">
         <a href="#" class="brand-logo left">Meteokre</a>
         <ul class="nav-mobile right">
-          <li class="red">
+          <li>
             <a routerLink="fileview">View File</a>
           </li>
-          <li class="red">
+          <li>
             <a routerLink="pastebin">Pastebin</a>
           </li>
-          <li class="red">
+          <li>
             <a routerLink="fileupload">Upload file</a>
           </li>
-          <li *ngIf="!this.userService.loggedIn">
+          <li class="red lighten-1" *ngIf="!this.userService.loggedIn">
             <a routerLink="login">Login</a>
           </li>
-          <li *ngIf="!this.userService.loggedIn">
+          <li class="red lighten-1" *ngIf="!this.userService.loggedIn">
             <a routerLink="register">Register</a>
           </li>
-          <li *ngIf="this.userService.loggedIn">
+          <li class="red lighten-1" *ngIf="this.userService.loggedIn">
             <a (click)="this.userService.logout()">Logout {{this.userService.username}}</a>
           </li>
         </ul>
