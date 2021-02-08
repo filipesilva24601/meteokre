@@ -16,8 +16,7 @@ export class ApiService {
 
   authcheck() {
     return this.http.get(`${this.userroot}/authcheck`, {
-      withCredentials: true,
-      observe: 'response',
+      withCredentials: true
     });
   }
 

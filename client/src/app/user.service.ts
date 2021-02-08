@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from './api.service';
@@ -12,12 +13,12 @@ export class UserService {
   constructor(private router: Router, private api: ApiService) {}
 
   authcheck(){
-    this.api.authcheck().subscribe({next: (res: any) => {
-      if(res.status == 200){
+    this.api.authcheck().subscribe((res: any) => {
+      if(res.username){
         this.loggedIn = true;
-        this.username = res.body.username;
+        this.username = res.username;
       }
-    }});
+    });
   }
 
   logout() {

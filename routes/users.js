@@ -9,7 +9,7 @@ router.get("/authcheck", function (req, res, next) {
   if (req.session.userid) {
     res.send({ username: req.session.username });
   } else {
-    res.status(403).send({ message: "Not authenticated." });
+    res.send({ message: "Not authenticated." });
   }
 });
 
