@@ -9,8 +9,8 @@ import { ab2b64, b642ab } from './helpers';
   providedIn: 'root',
 })
 export class ApiService {
-  apiroot: string = 'https://localhost:3000/api';
-  userroot: string = 'https://localhost:3000/users';
+  apiroot: string = 'api';
+  userroot: string = 'users';
 
   constructor(private http: HttpClient) {}
 
