@@ -1,6 +1,7 @@
 import {
   Component,
   Input,
+  OnDestroy,
   OnInit,
   ɵbypassSanitizationTrustStyle,
   ɵ_sanitizeUrl,
@@ -19,13 +20,13 @@ declare var M: any;
   templateUrl: './fileview.component.html',
   styleUrls: ['./fileview.component.css'],
 })
-export class FileViewComponent implements OnInit {
+export class FileViewComponent implements OnInit, OnDestroy {
   fileId: string;
   encryptionKey: string;
   fileName: string;
   message: string = '';
 
-  image: string;
+  image: Blob;
   viewImage: boolean = false;
   text: string;
   url;
@@ -42,6 +43,10 @@ export class FileViewComponent implements OnInit {
   ngOnInit(): void {
     this.titleService.setTitle('View File');
     this.fileId = this.route.snapshot.paramMap.get('id');
+  }
+
+  ngOnDestroy(): void {
+    URL.revokeObjectURL(this.url);
   }
 
   validate(val: string) {
@@ -95,17 +100,17 @@ export class FileViewComponent implements OnInit {
         ])
           .pipe(
             map(([meta, file]) => {
+              const temp = new Blob([file], { type: meta.fileType });
+              this.url = this.sanitizer.bypassSecurityTrustUrl(
+                URL.createObjectURL(temp)
+              );
               this.message = 'File decrypted';
               this.fileName = meta.fileName;
               if (meta.fileType === 'text/plain') {
                 this.text = new TextDecoder().decode(file);
               } else if (meta.fileType.startsWith('image/')) {
-                this.image = `data:${meta.fileType};base64,${ab2b64(file)}`;
+                this.image = this.url;
               }
-              const temp = new Blob([file], { type: meta.fileType });
-              this.url = this.sanitizer.bypassSecurityTrustUrl(
-                URL.createObjectURL(temp)
-              );
             })
           )
           .toPromise();
