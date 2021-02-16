@@ -18,33 +18,23 @@ router.get("/file/:fileid", function (req, res, next) {
 });
 
 router.get("/meta/:fileid", function (req, res, next) {
-  res.sendFile(path.join(basepath, "files", req.params.fileid + ".meta"), {
+  res.sendFile(path.join(basepath, "meta", req.params.fileid), {
     root: root,
   });
 });
 
-router.post("/file/:fileid", restrict, function (req, res, next) {
-  var busboy = new Busboy({ headers: req.headers });
-  let id = req.params.fileid;
-  busboy.on("file", function (fieldname, file, filename, encoding, mimetype) {
-    var filePath = path.join(basepath, "files", id);
-    file.pipe(fs.createWriteStream(filePath));
-  });
-  busboy.on("finish", function () {
-    res.send({ fileid: id });
-  });
-  busboy.on("error", function (err) {
-    res.status(500).send({ error: err });
-  });
-  return req.pipe(busboy);
-});
-
-router.post("/meta", restrict, function (req, res, next) {
+router.post("/file", restrict, function (req, res, next) {
   var busboy = new Busboy({ headers: req.headers });
   let id = uuidv4();
   busboy.on("file", function (fieldname, file, filename, encoding, mimetype) {
-    var filePath = path.join(basepath, "files", id + ".meta");
-    file.pipe(fs.createWriteStream(filePath));
+    if(fieldname == "meta"){
+      var filePath = path.join(basepath, "meta", id);
+      file.pipe(fs.createWriteStream(filePath));  
+    }
+    if(fieldname == "file"){
+      var filePath = path.join(basepath, "files", id);
+      file.pipe(fs.createWriteStream(filePath));
+    }
   });
   busboy.on("finish", function () {
     res.send({ fileid: id });

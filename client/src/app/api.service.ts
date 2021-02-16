@@ -16,7 +16,7 @@ export class ApiService {
 
   authcheck() {
     return this.http.get(`${this.userroot}/authcheck`, {
-      withCredentials: true
+      withCredentials: true,
     });
   }
 
@@ -32,20 +32,12 @@ export class ApiService {
     });
   }
 
-  postMeta(encryptedData: ArrayBuffer) {
+  postFile(encryptedData: ArrayBuffer, encryptedMeta: ArrayBuffer) {
     const form = new FormData();
-    form.append('file', new Blob([encryptedData]));
+    form.append('meta', new File([encryptedMeta], 'meta'));
+    form.append('file', new File([encryptedData], 'file'));
 
-    return this.http.post(`${this.apiroot}/meta`, form, {
-      withCredentials: true,
-    });
-  }
-
-  postFile(encryptedData: ArrayBuffer, fileid: string) {
-    const form = new FormData();
-    form.append('file', new Blob([encryptedData]));
-
-    return this.http.post(`${this.apiroot}/file/${fileid}`, form, {
+    return this.http.post(`${this.apiroot}/file`, form, {
       withCredentials: true,
     });
   }
@@ -69,7 +61,7 @@ export class ApiService {
   register(username: string, password: string) {
     const data = { username: username, password: password };
     return this.http.post(`${this.userroot}/register`, data, {
-      withCredentials: true
+      withCredentials: true,
     });
   }
 }

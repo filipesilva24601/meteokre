@@ -72,12 +72,10 @@ export class FileuploadstatusComponent implements OnInit {
                     .then((encryptedData) => {
                       this.message = 'Uploading file';
                       this.api
-                        .postMeta(encryptedMetadata)
+                        .postFile(encryptedData, encryptedMetadata)
                         .pipe(
-                          switchMap((res: any) => {
-                            return this.api.postFile(encryptedData, res.fileid);
-                          }),
                           catchError((err) => {
+                            console.log(err);
                             this.message = 'Failed to upload file.';
                             throw new Error('');
                           }),
