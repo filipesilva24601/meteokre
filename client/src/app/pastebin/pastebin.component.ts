@@ -7,8 +7,10 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { ApiService } from '../api.service';
 import { FileuploadstatusComponent } from '../fileuploadstatus/fileuploadstatus.component';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-pastebin',
@@ -23,9 +25,17 @@ export class PastebinComponent implements OnInit, AfterViewInit {
   @Input() text: string;
   fileInfo: any;
 
-  constructor(private api: ApiService, private titleService: Title) {}
+  constructor(
+    private titleService: Title,
+    private userService: UserService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
+    if (!this.userService.loggedIn) {
+      this.router.navigate(['/fileview']);
+    }
+
     this.titleService.setTitle('Pastebin');
   }
 

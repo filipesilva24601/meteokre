@@ -7,10 +7,10 @@
           <li>
             <a routerLink="fileview">View File</a>
           </li>
-          <li>
+          <li *ngIf="this.userService.loggedIn">
             <a routerLink="pastebin">Pastebin</a>
           </li>
-          <li>
+          <li *ngIf="this.userService.loggedIn">
             <a routerLink="fileupload">Upload file</a>
           </li>
           <li class="red lighten-1" *ngIf="!this.userService.loggedIn">

@@ -8,8 +8,10 @@ import {
   QueryList,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { ApiService } from '../api.service';
 import { FileuploadstatusComponent } from '../fileuploadstatus/fileuploadstatus.component';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-fileupload',
@@ -17,11 +19,16 @@ import { FileuploadstatusComponent } from '../fileuploadstatus/fileuploadstatus.
   styleUrls: ['./fileupload.component.css'],
 })
 export class FileuploadComponent implements OnInit, OnDestroy {
-  @ViewChildren(FileuploadstatusComponent) statuses: QueryList<FileuploadstatusComponent>;
+  @ViewChildren(FileuploadstatusComponent)
+  statuses: QueryList<FileuploadstatusComponent>;
   @ViewChild('filePicker') filePicker: ElementRef;
   filesToUpload: File[] = [];
 
-  constructor(private api: ApiService, private titleService: Title) {}
+  constructor(
+    private titleService: Title,
+    private userService: UserService,
+    private router: Router
+  ) {}
 
   private handleDrag(e) {
     e.preventDefault();
@@ -29,6 +36,10 @@ export class FileuploadComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    if (!this.userService.loggedIn) {
+      this.router.navigate(['/fileview']);
+    }
+
     this.titleService.setTitle('File Upload');
 
     document.body.addEventListener('dragover', this.handleDrag, false);
@@ -47,7 +58,7 @@ export class FileuploadComponent implements OnInit, OnDestroy {
   }
 
   uploadFile() {
-    this.statuses.map(s => s.uploadFileOnce());
+    this.statuses.map((s) => s.uploadFileOnce());
   }
 
   reset() {
