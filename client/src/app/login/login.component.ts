@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
     this.message = null;
     this.api.login(this.username, this.password).subscribe({
       next: (res) => {
-        this.userService.loggedIn = true;
+        this.userService.loggedIn.next(true);
         this.userService.username = this.username;
         this.router.navigate(['/pastebin']);
       },

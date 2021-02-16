@@ -32,9 +32,11 @@ export class PastebinComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    if (!this.userService.loggedIn) {
-      this.router.navigate(['/fileview']);
-    }
+    this.userService.loggedIn.subscribe((isLoggedIn) => {
+      if (!isLoggedIn) {
+        this.router.navigate(['/fileview']);
+      }
+    });
 
     this.titleService.setTitle('Pastebin');
   }

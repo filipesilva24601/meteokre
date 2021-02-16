@@ -7,19 +7,19 @@
           <li>
             <a routerLink="fileview">View File</a>
           </li>
-          <li *ngIf="this.userService.loggedIn">
+          <li *ngIf="this.userService.loggedIn | async">
             <a routerLink="pastebin">Pastebin</a>
           </li>
-          <li *ngIf="this.userService.loggedIn">
+          <li *ngIf="this.userService.loggedIn | async">
             <a routerLink="fileupload">Upload file</a>
           </li>
-          <li class="red lighten-1" *ngIf="!this.userService.loggedIn">
+          <li class="red lighten-1" *ngIf="!(this.userService.loggedIn | async)">
             <a routerLink="login">Login</a>
           </li>
-          <li class="red lighten-1" *ngIf="!this.userService.loggedIn">
+          <li class="red lighten-1" *ngIf="!(this.userService.loggedIn | async)">
             <a routerLink="register">Register</a>
           </li>
-          <li class="red lighten-1" *ngIf="this.userService.loggedIn">
+          <li class="red lighten-1" *ngIf="this.userService.loggedIn | async">
             <a (click)="this.userService.logout()">Logout {{this.userService.username}}</a>
           </li>
         </ul>

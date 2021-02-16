@@ -34,7 +34,7 @@ export class RegisterComponent implements OnInit {
   register() {
     this.clearMessage();
     this.api.register(this.username, this.password).subscribe({next: (res:any) => {
-        this.userService.loggedIn = true;
+        this.userService.loggedIn.next(true);
         this.userService.username = this.username;
         this.router.navigate(['/pastebin']);
       }, error: (err: HttpErrorResponse) => {

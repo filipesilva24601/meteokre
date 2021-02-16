@@ -36,9 +36,11 @@ export class FileuploadComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (!this.userService.loggedIn) {
-      this.router.navigate(['/fileview']);
-    }
+    this.userService.loggedIn.subscribe((isLoggedIn) => {
+      if (!isLoggedIn) {
+        this.router.navigate(['/fileview']);
+      }
+    });
 
     this.titleService.setTitle('File Upload');
 
