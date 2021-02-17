@@ -18,6 +18,7 @@ var app = express();
 
 app.use(session({
   genid: (req) => {return uuidv4();},
+  // change secret when deploying
   secret: '37917a9b-ee9e-4b46-bd25-80d0d1cab213',
   resave: false,
   saveUninitialized: false,

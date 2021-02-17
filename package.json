@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "monitor": "nodemon -x 'node ./bin/www' -w routes -w app.js -w auth.js -w bin"
+    "monitor": "nodemon -e js,json,sql -x 'node ./bin/www' -w routes -w app.js -w auth.js -w bin -w database"
   },
   "dependencies": {
     "@angular/core": "^11.0.9",
