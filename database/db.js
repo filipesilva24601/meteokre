@@ -1,4 +1,5 @@
 var sqlite3 = require("sqlite3").verbose();
+var fs = require("fs");
 
 const DBSOURCE = "db.sqlite";
 
@@ -9,14 +10,8 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
     throw err;
   } else {
     console.log("Connected to the SQLite database.");
-    db.run(`CREATE TABLE user (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            google_id text UNIQUE,
-            name text UNIQUE,
-            password text, 
-            CONSTRAINT google_id_unique UNIQUE (google_id),
-            CONSTRAINT name_unique UNIQUE (name)
-            )`, (err) => {
+    const schema = fs.readFileSync("database/schema.sql", "utf8");
+    db.exec(schema, (err) => {
                 return;
             });
   }

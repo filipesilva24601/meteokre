@@ -8,6 +8,8 @@ var path = require("path");
 var os = require("os");
 var fs = require("fs");
 
+var db = require("../database/db");
+
 var restrict = require("../auth");
 
 var basepath = "./test";
@@ -27,17 +29,25 @@ router.post("/file", restrict, function (req, res, next) {
   var busboy = new Busboy({ headers: req.headers });
   let id = uuidv4();
   busboy.on("file", function (fieldname, file, filename, encoding, mimetype) {
-    if(fieldname == "meta"){
+    if (fieldname == "meta") {
       var filePath = path.join(basepath, "meta", id);
-      file.pipe(fs.createWriteStream(filePath));  
+      file.pipe(fs.createWriteStream(filePath));
     }
-    if(fieldname == "file"){
+    if (fieldname == "file") {
       var filePath = path.join(basepath, "files", id);
       file.pipe(fs.createWriteStream(filePath));
     }
   });
   busboy.on("finish", function () {
-    res.send({ fileid: id });
+    db.run(
+      "INSERT INTO file (id, user_id) values (?, ?)",
+      [id, req.session.userid],
+      (err) => {
+        if (!err) {
+          res.send({ fileid: id });
+        }
+      }
+    );
   });
   busboy.on("error", function (err) {
     res.status(500).send({ error: err });
