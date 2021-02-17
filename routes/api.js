@@ -19,6 +19,15 @@ router.get("/file/:fileid", function (req, res, next) {
   res.sendFile(path.join(basepath, "files", req.params.fileid), { root: root });
 });
 
+router.get("/files", restrict, function (req, res, next) {
+  db.all("SELECT id FROM file WHERE user_id=?", [req.session.userid], (err, rows) => {
+    if (!err) {
+      console.log(rows);
+      res.send(rows);
+    }
+  });
+});
+
 router.get("/meta/:fileid", function (req, res, next) {
   res.sendFile(path.join(basepath, "meta", req.params.fileid), {
     root: root,

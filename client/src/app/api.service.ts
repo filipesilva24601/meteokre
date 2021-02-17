@@ -64,4 +64,10 @@ export class ApiService {
       withCredentials: true,
     });
   }
+
+  getFiles() {
+    return this.http.get(`${this.apiroot}/files`, {
+      responseType: 'json',
+    });
+  }
 }

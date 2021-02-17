@@ -12,6 +12,7 @@ import { FileuploadstatusComponent } from './fileuploadstatus/fileuploadstatus.c
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { ViewUserFilesComponent } from './view-user-files/view-user-files.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { RegisterComponent } from './register/register.component';
     FileuploadstatusComponent,
     PageNotFoundComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ViewUserFilesComponent
   ],
   imports: [
     BrowserModule,
