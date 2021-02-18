@@ -1,5 +1,6 @@
+import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { catchError, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { ApiService } from '../api.service';
 import { b642ab, ab2b64 } from '../helpers';
 
@@ -16,7 +17,11 @@ export class FileuploadstatusComponent implements OnInit {
   encKey: string;
   ivKey: string;
 
+  total: number = 0;
+  progress: number = 0;
+
   uploading: boolean = false;
+  showProgress: boolean = false;
 
   constructor(private api: ApiService) {}
 
@@ -71,17 +76,29 @@ export class FileuploadstatusComponent implements OnInit {
                     .encrypt({ name: 'AES-GCM', iv: iv }, key, ab)
                     .then((encryptedData) => {
                       this.message = 'Uploading file';
+                      this.showProgress = true;
                       this.api
                         .postFile(encryptedData, encryptedMetadata)
                         .pipe(
+                          map((event: HttpEvent<any>) => {
+                            switch (event.type) {
+                              case HttpEventType.UploadProgress:
+                                this.total = event.total;
+                                this.progress = event.loaded;
+                                break;
+                              case HttpEventType.Response:
+                                this.fileid = event.body.fileid;
+                                this.showProgress = false;
+                                this.message = 'Finished uploading file';
+                                break;
+                              default:
+                                break;
+                            }
+                          }),
                           catchError((err) => {
                             console.log(err);
                             this.message = 'Failed to upload file.';
                             throw new Error('');
-                          }),
-                          tap((res: any) => {
-                            this.fileid = res.fileid;
-                            this.message = 'Finished uploading file';
                           })
                         )
                         .toPromise();

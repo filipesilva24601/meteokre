@@ -9,8 +9,11 @@
 </ng-container>
 <ng-container *ngIf="!fileid">
     <td>
-        <div>
+        <div *ngIf="!showProgress">
             {{message}}
+        </div>
+        <div *ngIf="showProgress">
+            <progress [max]="total" [value]="progress"></progress>
         </div>
 </td>
 </ng-container>

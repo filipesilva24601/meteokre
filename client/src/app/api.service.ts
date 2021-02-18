@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, forkJoin, from } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
 
@@ -39,6 +39,8 @@ export class ApiService {
 
     return this.http.post(`${this.apiroot}/file`, form, {
       withCredentials: true,
+      observe: 'events',
+      reportProgress: true,
     });
   }
 
