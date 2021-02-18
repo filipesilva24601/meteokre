@@ -53,8 +53,8 @@ export class FileuploadComponent implements OnInit, OnDestroy {
     document.body.removeEventListener('drop', this.handleDrag, false);
   }
 
-  setFilesToUpload(files: FileList): void {
-    Array.from(files).forEach((file) => {
+  setFilesToUpload(target): void {
+    Array.from(target).forEach((file: File) => {
       this.filesToUpload.push(file);
     });
   }

@@ -65,7 +65,7 @@ export class ApiService {
     });
   }
 
-  getFiles() {
+  getFiles(): Observable<any> {
     return this.http.get(`${this.apiroot}/files`, {
       responseType: 'json',
     });
