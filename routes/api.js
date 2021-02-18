@@ -64,4 +64,26 @@ router.post("/file", restrict, function (req, res, next) {
   return req.pipe(busboy);
 });
 
+router.delete("/file/:id", restrict, function (req, res, next) {
+  db.get("SELECT user_id FROM file WHERE id=?", [req.params.id], (err, row) => {
+    if (err){
+      res.status(500).send({ message: err });
+    } else {
+      if (row.user_id !== req.session.userid) {
+        res.status(403).send({ message: "Can't deleter other user's files" });
+      } else {
+        db.run("DELETE FROM file WHERE id=?", [req.params.id], (err) => {
+          if (err) {
+            res.status(500).send({ message: err });
+          } else {
+            fs.rmSync(path.join(basepath, "files", req.params.id));
+            fs.rmSync(path.join(basepath, "meta", req.params.id));
+            res.send({ message: "Deleted file successfuly" })
+          }
+        })
+      }
+    }
+  })
+})
+
 module.exports = router;

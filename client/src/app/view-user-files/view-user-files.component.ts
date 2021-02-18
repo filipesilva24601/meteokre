@@ -8,9 +8,15 @@ import { ApiService } from '../api.service';
   styleUrls: ['./view-user-files.component.css'],
 })
 export class ViewUserFilesComponent implements OnInit {
-  files = this.api.getFiles();
+  files$ = this.api.getFiles();
 
   constructor(private api: ApiService) {}
 
   ngOnInit(): void {}
+
+  delete(id) {
+    this.api.delete(id).subscribe((res: any) => {
+      this.files$ = this.api.getFiles();
+    });
+  }
 }

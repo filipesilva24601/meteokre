@@ -70,4 +70,8 @@ export class ApiService {
       responseType: 'json',
     });
   }
+
+  delete(id) {
+    return this.http.delete(`${this.apiroot}/file/${id}`);
+  }
 }
