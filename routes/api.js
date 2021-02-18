@@ -69,6 +69,9 @@ router.delete("/file/:id", restrict, function (req, res, next) {
     if (err){
       res.status(500).send({ message: err });
     } else {
+      if (!row) {
+        res.status(500).send({ message: "Couldn't find the file" });
+      }
       if (row.user_id !== req.session.userid) {
         res.status(403).send({ message: "Can't deleter other user's files" });
       } else {
