@@ -6,7 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PastebinComponent } from './pastebin/pastebin.component';
 import { RegisterComponent } from './register/register.component';
-import { ViewUserFilesComponent } from './view-user-files/view-user-files.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const routes: Routes = [
   { path: 'pastebin', component: PastebinComponent },
@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'fileupload', component: FileuploadComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'viewuserfiles', component: ViewUserFilesComponent },
+  { path: 'profile', component: UserProfileComponent },
   { path: '', redirectTo: '/pastebin', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent, pathMatch: 'full' },
 ];

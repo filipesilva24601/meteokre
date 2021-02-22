@@ -11,7 +11,11 @@
           ><a routerLink="/fileview/{{ file.id }}"
             ><span class="material-icons">link</span></a
           >
-          <span class="material-icons right interactive" (click)="delete(file.id)">delete_forever</span>
+          <span
+            class="material-icons right interactive"
+            (click)="delete(file.id)"
+            >delete_forever</span
+          >
         </li>
       </ul>
     </ng-container>
@@ -22,5 +26,10 @@
         </li>
       </ul>
     </ng-template>
+  </div>
+</div>
+<div class="row">
+  <div class="col s8 offset-s2">
+    <a class="waves-effect waves-light btn-large red" (click)="deleteAccount()">{{deleteMessages[deleteClicks]}}</a>
   </div>
 </div>

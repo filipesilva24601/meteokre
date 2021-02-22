@@ -1,6 +1,9 @@
 var express = require("express");
 var router = express.Router();
 var db = require("../database/db");
+var fs = require("fs");
+var path = require("path");
+var {basepath, root} = require("../config");
 
 const bcrypt = require("bcrypt");
 const { google } = require("googleapis");
@@ -14,8 +17,9 @@ router.get("/authcheck", function (req, res, next) {
 });
 
 router.post("/logout", function (req, res, next) {
-  req.session.destroy();
-  res.send({ message: "Logged out" });
+  req.session.destroy((err) => {
+    res.send({ message: "Logged out" });
+  });
 });
 
 router.get("/login", function (req, res, next) {
@@ -85,18 +89,53 @@ router.post("/register", function (req, res, next) {
     db.run(
       "INSERT INTO user (name, password) VALUES (?, ?)",
       [req.body.username, pass],
-      (err) => {
+      function (err) {
         if (err) {
           res.status(409).send({ message: "Username already exists." });
         } else {
           req.session.authenticated = true;
           req.session.username = req.body.username;
-          req.session.userid = this.lastId;
+          req.session.userid = this.lastID;
           res.send({ message: "Registered successfully." });
         }
       }
     );
   });
+});
+
+router.delete("", function (req, res, next) {
+  if (req.session.userid) {
+    console.log("user is logged in")
+    db.each(
+      "SELECT id FROM file WHERE user_id=?",
+      [req.session.userid],
+      (err, row) => {
+        fs.rmSync(path.join(basepath, "files", row.id));
+        fs.rmSync(path.join(basepath, "meta", row.id));
+      }
+    );
+    db.run("DELETE FROM user WHERE id=?", [req.session.userid], (err) => {
+      if (!err) {
+        db.run(
+          "DELETE FROM file WHERE user_id=?",
+          [req.session.userid],
+          (err) => {
+            if (!err) {
+              req.session.destroy((err) => {
+                res.send({ message: "Account deleted successfuly" });
+              });
+            } else {
+              res.status(400);
+            }
+          }
+        );
+      } else {
+        res.status(400);
+      }
+    });
+  } else {
+    res.send({ message: "Not authenticated." });
+  }
 });
 
 module.exports = router;

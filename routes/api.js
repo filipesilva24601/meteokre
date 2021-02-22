@@ -12,8 +12,7 @@ var db = require("../database/db");
 
 var restrict = require("../auth");
 
-var basepath = "./test";
-var root = path.parse(__dirname).dir;
+var {basepath, root} = require("../config");
 
 router.get("/file/:fileid", function (req, res, next) {
   res.sendFile(path.join(basepath, "files", req.params.fileid), { root: root });

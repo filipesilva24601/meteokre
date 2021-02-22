@@ -76,4 +76,8 @@ export class ApiService {
   delete(id) {
     return this.http.delete(`${this.apiroot}/file/${id}`);
   }
+
+  deleteAccount() {
+    return this.http.delete(`${this.userroot}`);
+  }
 }

@@ -23,7 +23,7 @@
             <a (click)="this.userService.logout()">Logout {{this.userService.username}}</a>
           </li>
           <li *ngIf="this.userService.loggedIn | async">
-            <a routerLink="viewuserfiles">Your Files</a>
+            <a routerLink="profile">Profile</a>
           </li>
         </ul>
       </div>
