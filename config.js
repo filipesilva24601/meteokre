@@ -1,4 +1,5 @@
 var path = require("path");
 
-exports.root = path.parse(__dirname).dir;
-exports.basepath = "./test";
+// Location where files and database will be stored, default is starting directory
+// Must be absolute
+exports.root = path.join(__dirname, "test");

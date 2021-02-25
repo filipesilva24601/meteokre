@@ -12,10 +12,11 @@ var db = require("../database/db");
 
 var restrict = require("../auth");
 
-var {basepath, root} = require("../config");
+var {root} = require("../config");
 
 router.get("/file/:fileid", function (req, res, next) {
-  res.sendFile(path.join(basepath, "files", req.params.fileid), { root: root });
+  console.log(root, path.join(root, "files", req.params.fileid));
+  res.sendFile(path.join(root, "files", req.params.fileid));
 });
 
 router.get("/files", restrict, function (req, res, next) {
@@ -28,9 +29,7 @@ router.get("/files", restrict, function (req, res, next) {
 });
 
 router.get("/meta/:fileid", function (req, res, next) {
-  res.sendFile(path.join(basepath, "meta", req.params.fileid), {
-    root: root,
-  });
+  res.sendFile(path.join(root, "meta", req.params.fileid));
 });
 
 router.post("/file", restrict, function (req, res, next) {
@@ -38,11 +37,11 @@ router.post("/file", restrict, function (req, res, next) {
   let id = uuidv4();
   busboy.on("file", function (fieldname, file, filename, encoding, mimetype) {
     if (fieldname == "meta") {
-      var filePath = path.join(basepath, "meta", id);
+      var filePath = path.join(root, "meta", id);
       file.pipe(fs.createWriteStream(filePath));
     }
     if (fieldname == "file") {
-      var filePath = path.join(basepath, "files", id);
+      var filePath = path.join(root, "files", id);
       file.pipe(fs.createWriteStream(filePath));
     }
   });
@@ -78,8 +77,8 @@ router.delete("/file/:id", restrict, function (req, res, next) {
           if (err) {
             res.status(500).send({ message: err });
           } else {
-            fs.rmSync(path.join(basepath, "files", req.params.id));
-            fs.rmSync(path.join(basepath, "meta", req.params.id));
+            fs.rmSync(path.join(root, "files", req.params.id));
+            fs.rmSync(path.join(root, "meta", req.params.id));
             res.send({ message: "Deleted file successfuly" })
           }
         })
