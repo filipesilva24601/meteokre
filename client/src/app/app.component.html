@@ -2,8 +2,8 @@
   <div class="nav-wrapper">
     <div class="row">
       <div class="col s12">
-        <a href="#" class="brand-logo left">Meteokre</a>
-        <ul class="nav-mobile right">
+        <a href="#" class="brand-logo center">Meteokre</a>
+        <ul class="left">
           <li>
             <a routerLink="fileview">View File</a>
           </li>
@@ -13,6 +13,8 @@
           <li *ngIf="this.userService.loggedIn | async">
             <a routerLink="fileupload">Upload file</a>
           </li>
+        </ul>
+        <ul class="right">
           <li class="red lighten-1" *ngIf="!(this.userService.loggedIn | async)">
             <a routerLink="login">Login</a>
           </li>
